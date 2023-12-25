@@ -66,7 +66,7 @@ VALIDATE $? "Installing dependencies"
 #use absolute, because catalogue.service exists there
 cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service
 
-VALIDATE $? "copying catalogue srvice file"
+VALIDATE $? "copying catalogue service file"
 
 systemctl daemon-reload &>> $LOGFILE
 
