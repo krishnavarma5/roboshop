@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGODB_HOST=
+MONGODB_HOST=mongodb.76sdevops.website
 
 TIMESSTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESSTAMP.log"
