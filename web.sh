@@ -5,12 +5,12 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGODB_HOST=mongodb.76sdevops.website
 
-TIMESSTAMP=$(date +%F-%H-%M-%S)
-LOGFILE="/tmp/$0-$TIMESSTAMP.log"
 
-echo "script started executing at $TIMESSTAMP" &>> $LOGFILE
+TIMESTAMP=$(date +%F-%H-%M-%S)
+LOGFILE="/tmp/$0-$TIMESTAMP.log"
+
+echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 VALIDATE(){ 
    if [ $1 -ne 0 ]
@@ -30,31 +30,31 @@ else
    echo "you are root user"
 fi #fi means reverse of if, indicating condition end
 
-dnf install nginx -y
+dnf install nginx -y &>> $LOGFILE
 
 VALIDATE $? "Installing nginx"
 
-systemctl enable nginx
+systemctl enable nginx &>> $LOGFILE
 
 VALIDATE $? "enable nginx"
 
-systemctl start nginx
+systemctl start nginx &>> $LOGFILE
 
 VALIDATE $? "Starting nginx"
 
-rm -rf /usr/share/nginx/html/*
+rm -rf /usr/share/nginx/html/* &>> $LOGFILE
 
 VALIDATE $? "remove default website"
 
-curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip
+curl -o /tmp/web.zip https://roboshop-builds.s3.amazonaws.com/web.zip &>> $LOGFILE
 
 VALIDATE $? "downloaded web application"
 
-cd /usr/share/nginx/html
+cd /usr/share/nginx/html &>> $LOGFILE
 
 VALIDATE $? "moving nginx html directory"
 
-unzip -o /tmp/web.zip
+unzip -o /tmp/web.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping web"
 
@@ -62,7 +62,7 @@ cp /home/centos/roboshop/roboshop.conf /etc/nginx/default.d/roboshop.conf
 
 VALIDATE $? "copied roboshop reverse proxy config"
 
-systemctl restart nginx 
+systemctl restart nginx &>> $LOGFILE
 
 VALIDATE $? "restared nginx"
 

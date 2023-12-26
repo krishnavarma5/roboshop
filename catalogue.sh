@@ -5,12 +5,12 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-MONGODB_HOST=mongodb.76sdevops.website
+MONGDB_HOST=mongodb.76sdevops.website
 
-TIMESSTAMP=$(date +%F-%H-%M-%S)
-LOGFILE="/tmp/$0-$TIMESSTAMP.log"
+TIMESTAMP=$(date +%F-%H-%M-%S)
+LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started executing at $TIMESSTAMP" &>> $LOGFILE
+echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 VALIDATE(){ 
    if [ $1 -ne 0 ]
@@ -42,7 +42,7 @@ dnf install nodejs -y &>> $LOGFILE
 
 VALIDATE $? "installing NodeJS:18" 
 
-id roboshop
+id roboshop # if roboshop user does not exist, then it is failure
 if [ $? -ne 0]
 then 
    useradd roboshop
@@ -94,7 +94,7 @@ dnf install mongodb-org-shell -y &>> $LOGFILE
 
 VALIDATE $? "Installing MongoDB client"
 
-mongo --host $MONGODB_HOST </app/schema/catalogue.js &>> $LOGFILE
+mongo --host $MONGDB_HOST </app/schema/catalogue.js &>> $LOGFILE
 
 VALIDATE $? "Loading catalogue data into MongoDB"
 
