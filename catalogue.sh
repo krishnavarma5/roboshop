@@ -34,7 +34,7 @@ dnf module disable nodejs -y &>> $LOGFILE
 
 VALIDATE $? "Disabling current NodeJS" 
 
-dnf module enable nodejs:18 -y&>> $LOGFILE
+dnf module enable nodejs:18 -y &>> $LOGFILE
 
 VALIDATE $? "enabling NodeJS:18" 
 
@@ -43,7 +43,7 @@ dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "installing NodeJS:18" 
 
 id roboshop # if roboshop user does not exist, then it is failure
-if [ $? -ne 0]
+if [ $? -ne 0 ]
 then 
    useradd roboshop
    VALIDATE $? "Roboshop user creation"
