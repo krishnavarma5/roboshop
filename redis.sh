@@ -9,7 +9,7 @@ N="\e[0m"
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
-exec &>$LOGFILE
+exec &> $LOGFILE
 
 echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
@@ -43,7 +43,7 @@ dnf install redis -y
 
 VALIDATE $? "Installing redis"
 
-sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis.conf
+sed -i 's/127.0.0.1/0.0.0.0/g' /etc/redis/redis.conf
 
 VALIDATE $? "allowing remote connections"
 
