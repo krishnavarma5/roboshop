@@ -7,10 +7,10 @@ Y="\e[33m"
 N="\e[0m"
 MONGODB_HOST=mongodb.76sdevops.website
 
-TIMESSTAMP=$(date +%F-%H-%M-%S)
-LOGFILE="/tmp/$0-$TIMESSTAMP.log"
+TIMESTAMP=$(date +%F-%H-%M-%S)
+LOGFILE="/tmp/$0-$TIMESTAMP.log"
 
-echo "script started executing at $TIMESSTAMP" &>> $LOGFILE
+echo "script started executing at $TIMESTAMP" &>> $LOGFILE
 
 VALIDATE(){ 
    if [ $1 -ne 0 ]
@@ -43,7 +43,7 @@ dnf install nodejs -y &>> $LOGFILE
 VALIDATE $? "installing NodeJS:18" 
 
 id roboshop # if roboshop user does not exist, then it is failure
-if [ $? -ne 0]
+if [ $? -ne 0 ]
 then 
    useradd roboshop
    VALIDATE $? "Roboshop user creation"
