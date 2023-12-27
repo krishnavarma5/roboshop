@@ -5,7 +5,7 @@ R="\e[31m"
 G="\e[32m"
 Y="\e[33m"
 N="\e[0m"
-
+MONGODB_HOST=mongodb.76sdevops.website
 
 TIMESTAMP=$(date +%F-%H-%M-%S)
 LOGFILE="/tmp/$0-$TIMESTAMP.log"
@@ -44,7 +44,7 @@ fi
 mkdir -p /app &>> $LOGFILE
 
 VALIDATE $? "creating app directory"
- 
+
 curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>> $LOGFILE
 
 VALIDATE $? "Downloading payment"
@@ -53,24 +53,25 @@ cd /app
 
 unzip -o /tmp/payment.zip &>> $LOGFILE
 
-VALIDATE $? "unzipping payment" 
+VALIDATE $? "unzipping payment"
 
 pip3.6 install -r requirements.txt &>> $LOGFILE
 
-VALIDATE $? "Installing dependencies"
+VALIDATE $? "Installing Dependencies"
 
-cp home/centos/roboshop/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
+cp /home/centos/roboshop/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
 
-VALIDATE $? "copying payment service"
+VALIDATE $? "copying payment services"
 
 systemctl daemon-reload &>> $LOGFILE
 
-VALIDATE $? "deamon reload"
+VALIDATE $? "daemon reload"
 
 systemctl enable payment &>> $LOGFILE
 
 VALIDATE $? "enable payment"
 
-systemctl start payment &>> $LOGFILE
+systemctl start payment &>> $LOGFILE 
 
-VALIDATE $? "starting payment"
+VALIDATE $? "start payment"
+
