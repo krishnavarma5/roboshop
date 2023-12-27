@@ -30,7 +30,7 @@ else
    echo "you are root user"
 fi #fi means reverse of if, indicating condition end
 
-dnf install python36 gcc python3-devel -y
+dnf install python36 gcc python3-devel -y &>> $LOGFILE
 
 id roboshop # if roboshop user does not exist, then it is failure
 if [ $? -ne 0 ]
@@ -41,22 +41,36 @@ else
    echo -e "Roboshop user already exist $Y SKIPPING $N"
 fi   
 
-mkdir -p /app
+mkdir -p /app &>> $LOGFILE
 
 VALIDATE $? "creating app directory"
  
-curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip
+curl -L -o /tmp/payment.zip https://roboshop-builds.s3.amazonaws.com/payment.zip &>> $LOGFILE
+
+VALIDATE $? "Downloading payment"
 
 cd /app 
 
-unzip -o /tmp/payment.zip
+unzip -o /tmp/payment.zip &>> $LOGFILE
 
-pip3.6 install -r requirements.txt
+VALIDATE $? "unzipping payment" 
 
-cp home/centos/roboshop/payment.service /etc/systemd/system/payment.service
+pip3.6 install -r requirements.txt &>> $LOGFILE
 
-systemctl daemon-reload
+VALIDATE $? "Installing dependencies"
 
-systemctl enable payment
+cp home/centos/roboshop/payment.service /etc/systemd/system/payment.service &>> $LOGFILE
 
-systemctl start payment
+VALIDATE $? "copying payment service"
+
+systemctl daemon-reload &>> $LOGFILE
+
+VALIDATE $? "deamon reload"
+
+systemctl enable payment &>> $LOGFILE
+
+VALIDATE $? "enable payment"
+
+systemctl start payment &>> $LOGFILE
+
+VALIDATE $? "starting payment"
