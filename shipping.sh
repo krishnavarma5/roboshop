@@ -30,7 +30,7 @@ else
    echo "you are root user"
 fi #fi means reverse of if, indicating condition end
 
-dnf install maven -y
+dnf install maven -y &>> $LOGFILE
 
 id roboshop # if roboshop user does not exist, then it is failure
 if [ $? -ne 0 ]
@@ -53,42 +53,42 @@ cd /app
 
 VALIDATE $? "moving to app directory"
 
-unzip -o /tmp/shipping.zip
+unzip -o /tmp/shipping.zip &>> $LOGFILE
 
 VALIDATE $? "unzipping shipping"
 
-mvn clean package
+mvn clean package &>> $LOGFILE
 
- VALIDATE $? "Installing dependencies"
+VALIDATE $? "Installing dependencies"
 
-mv target/shipping-1.0.jar shipping.jar
+mv target/shipping-1.0.jar shipping.jar &>> $LOGFILE
 
 VALIDATE $? "Renaming jar file"
 
-cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service
+cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service &>> $LOGFILE
 
 VALIDATE $? "copying shipping.service"
 
-systemctl daemon-reload
+systemctl daemon-reload &>> $LOGFILE
 
 VALIDATE $? "deamon reload"
 
-systemctl enable shipping 
+systemctl enable shipping &>> $LOGFILE
 
 VALIDATE $? "enabling shipping"
 
-systemctl start shipping
+systemctl start shipping &>> $LOGFILE
 
- VALIDATE $? "start shipping"
+VALIDATE $? "start shipping"
 
-dnf install mysql -y
+dnf install mysql -y &>> $LOGFILE
 
 VALIDATE $? "Installing mysql client"
 
-mysql -h mysql.76sdevops.website -uroot -pRoboShop@1 < /app/schema/shipping.sql 
+mysql -h mysql.76sdevops.website -uroot -pRoboShop@1 < /app/schema/shipping.sql &>> $LOGFILE
 
- VALIDATE $? "loading shipping data"
+VALIDATE $? "loading shipping data"
 
-systemctl restart shipping
+systemctl restart shipping &>> $LOGFILE
 
- VALIDATE $? "Restart shipping"
+VALIDATE $? "Restart shipping"
