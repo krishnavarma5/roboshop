@@ -26,7 +26,7 @@ do
     {
         "Comment": "Creating a record set for cognito endpoint"
         ,"Changes": [{
-        "Action"              : "CREATE"
+        "Action"              : "UPSERT" 
         ,"ResourceRecordSet"  : {
             "Name"              : "'$i'.'$DOMAIN_NAME'"
             ,"Type"             : "A"
@@ -40,3 +40,5 @@ do
         '
 
 done        
+# In the above syntax before it is "Action:"create" now we changing it to "upsert"
+# "create" just creat the records but "upsert" is just edit if there are old records or else it will create new records
